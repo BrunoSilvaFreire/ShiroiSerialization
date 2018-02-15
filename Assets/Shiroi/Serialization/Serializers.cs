@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
-using UnityEngine;
 #if UNITY_EDITOR
-
+using UnityEditor;
 #endif
+using UnityEngine;
 
 namespace Shiroi.Serialization {
 #if UNITY_EDITOR
-    [InitializeOnLoad]
-#else
-[RuntimeInitializeOnLoadMethod]
+ [InitializeOnLoad]
 #endif
     public static class Serializers {
         private static readonly List<Serializer> KnownSerializers = new List<Serializer>();
@@ -89,20 +86,24 @@ namespace Shiroi.Serialization {
             if (AssignedSerializersCache.ContainsKey(type)) {
                 return AssignedSerializersCache[type];
             }
+
             var supportedSerializers = new List<Serializer>();
             foreach (var knownSerializer in KnownSerializers) {
                 if (knownSerializer.Supports(type)) {
                     supportedSerializers.Add(knownSerializer);
                 }
             }
+
             foreach (var provider in KnownProviders) {
                 if (provider.Supports(type)) {
                     supportedSerializers.Add(CreateAndRegisterSerializer(type, provider));
                 }
             }
+
             if (supportedSerializers.Count == 0) {
                 return null;
             }
+
             var selected = supportedSerializers.Max();
             AssignedSerializersCache[type] = selected;
             return selected;
