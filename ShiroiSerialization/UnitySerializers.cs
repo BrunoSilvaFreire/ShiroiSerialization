@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -26,7 +25,7 @@ namespace Shiroi.Serialization {
 #if UNITY_EDITOR
             json = EditorJsonUtility.ToJson(value);
 #else
-json = JsonUtility.ToJson(value);
+            json = JsonUtility.ToJson(value);
 #endif
 
             obj.SetString(TypeKey, value.GetType().AssemblyQualifiedName);
