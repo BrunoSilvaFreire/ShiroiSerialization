@@ -7,9 +7,6 @@ using UnityEditor;
 using UnityEngine;
 
 namespace Shiroi.Serialization {
-#if UNITY_EDITOR
- [InitializeOnLoad]
-#endif
     public static class Serializers {
         private static readonly List<Serializer> KnownSerializers = new List<Serializer>();
 
@@ -28,8 +25,10 @@ namespace Shiroi.Serialization {
         }
 
         private static void RegisterProviders() {
-            RegisterProvider(new GenericRuntimeSerializerProvider(typeof(ExposedReference<>),
-                typeof(ExposedReferenceSerializer<>)));
+            RegisterProvider(
+                new GenericRuntimeSerializerProvider(
+                    typeof(ExposedReference<>),
+                    typeof(ExposedReferenceSerializer<>)));
         }
 
         private static void RegisterProvider(RuntimeSerializerProvider provider) {

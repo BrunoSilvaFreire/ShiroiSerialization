@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiroiSerialization", "ShiroiSerialization\ShiroiSerialization.csproj", "{156F5E80-BC46-470A-B201-2F18C80A2502}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiroiDrawers", "ShiroiDrawers\ShiroiDrawers.csproj", "{A53A521D-4438-4115-A57C-654B7F250375}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{156F5E80-BC46-470A-B201-2F18C80A2502}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{156F5E80-BC46-470A-B201-2F18C80A2502}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{156F5E80-BC46-470A-B201-2F18C80A2502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A53A521D-4438-4115-A57C-654B7F250375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A53A521D-4438-4115-A57C-654B7F250375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A53A521D-4438-4115-A57C-654B7F250375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A53A521D-4438-4115-A57C-654B7F250375}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
