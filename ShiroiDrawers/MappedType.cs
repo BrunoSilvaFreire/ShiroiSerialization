@@ -30,7 +30,7 @@ namespace Shiroi.Drawing {
                 Label = Label.Substring(0, Label.Length - 5);
             }
             SerializedFields = SerializationUtil.GetSerializedMembers(type, true);
-            TotalElements = (uint) SerializedFields.Length;
+            TotalSerializedElements = (uint) SerializedFields.Length;
             //Initialize with label
             Height = EditorGUIUtility.singleLineHeight;
             foreach (var field in SerializedFields) {
@@ -39,6 +39,8 @@ namespace Shiroi.Drawing {
                 Height += drawer.GetTotalLines() * EditorGUIUtility.singleLineHeight;
             }
         }
+
+        private readonly Type type;
 
         public FieldInfo[] SerializedFields {
             get;
@@ -50,27 +52,31 @@ namespace Shiroi.Drawing {
             private set;
         }
 
-        public uint TotalElements {
+        public uint TotalSerializedElements {
             private set;
             get;
+        }
+
+        public Type Type {
+            get {
+                return type;
+            }
         }
 
 
         public void DrawFields(
             object obj,
             Rect rect,
-            int tokenIndex,
-            out bool changed) {
-            var labelRect = rect.GetLine(0);
-            var content = new GUIContent(string.Format("#{0} - {1}", tokenIndex, Label));
+            out bool changed
+        ) {
+            if (!obj.GetType().IsAssignableFrom(type)) {
+                throw new Exception(string.Format("'{0}' is not assignable to {1}!", obj, type.Name));
+            }
             changed = false;
             //Start at 1 because label
-            var currentLine = 1;
+            var currentLine = 0;
             FieldInfo currentField = null;
-
-            object currentToken = null;
-
-            Setter setter = value => currentField.SetValue(currentToken, value);
+            Setter setter = value => currentField.SetValue(obj, value);
             for (var index = 0; index < SerializedFields.Length; index++) {
                 currentField = SerializedFields[index];
                 var fieldType = currentField.FieldType;
