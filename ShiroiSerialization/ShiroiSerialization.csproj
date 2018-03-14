@@ -52,6 +52,7 @@
     <Compile Include="Serializers.cs" />
     <Compile Include="UnitySerializerProviders.cs" />
     <Compile Include="UnitySerializers.cs" />
+    <Compile Include="Util\AssemblyUtil.cs" />
     <Compile Include="Util\TypeUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

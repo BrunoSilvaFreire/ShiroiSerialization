@@ -1,6 +1,22 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Shiroi.Serialization {
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class GenericSerializerAttribute : Attribute {
+        private readonly Type supportedType;
+
+        public Type SupportedType {
+            get {
+                return supportedType;
+            }
+        }
+
+        public GenericSerializerAttribute(Type supportedType) {
+            this.supportedType = supportedType;
+        }
+    }
+
     public abstract class Serializer : IComparable<Serializer> {
         public abstract bool Supports(Type type);
         public abstract void Serialize(object value, string name, SerializedObject destination);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shiroi.Serialization.Util;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -38,6 +39,21 @@ namespace Shiroi.Serialization {
         private static void RegisterSerializers() {
             RegisterPrimitiveSerializers();
             RegisterUnitySerializers();
+            LoadFromAssemblies();
+        }
+
+        private static void LoadFromAssemblies() {
+            foreach (var type in AssemblyUtil.GetAllTypesOf<Serializer>()) {
+                if (type.IsGenericTypeDefinition) {
+                    var found = (GenericSerializerAttribute) Attribute.GetCustomAttribute(type, typeof(GenericSerializerAttribute));
+                    if (found != null) {
+                        RegisterProvider(new GenericRuntimeSerializerProvider(found.SupportedType, type));
+                    }
+                    continue;
+                }
+
+                RegisterSerializer(Activator.CreateInstance(type) as Serializer);
+            }
         }
 
         private static void RegisterUnitySerializers() {
@@ -78,6 +94,9 @@ namespace Shiroi.Serialization {
         }
 
         public static void RegisterSerializer(Serializer serializer) {
+            if (serializer == null) {
+                return;
+            }
             KnownSerializers.Add(serializer);
         }
 

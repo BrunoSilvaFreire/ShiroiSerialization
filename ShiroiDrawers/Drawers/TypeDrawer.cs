@@ -5,6 +5,21 @@ using UnityEngine;
 namespace Shiroi.Drawing.Drawers {
     public delegate void Setter(object value);
 
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class GenericDrawerAttribute : Attribute {
+        private readonly Type supportedType;
+
+        public Type SupportedType {
+            get {
+                return supportedType;
+            }
+        }
+
+        public GenericDrawerAttribute(Type supportedType) {
+            this.supportedType = supportedType;
+        }
+    }
+
     public abstract class TypeDrawer : IComparable<TypeDrawer> {
         public abstract bool Supports(Type type);
 

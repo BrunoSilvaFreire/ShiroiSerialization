@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shiroi.Serialization;
+using Shiroi.Serialization.Util;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,6 +25,21 @@ namespace Shiroi.Drawing.Drawers {
         private static void RegisterDrawerProviders() {
             //TODO: Fix ERDrawer
             //RegisterDrawerProvider(new GenericDrawerProvider(typeof(ExposedReference<>), typeof(ExposedReferenceDrawer<>)));
+            LoadFromAssemblies();
+        }
+
+        private static void LoadFromAssemblies() {
+            foreach (var type in AssemblyUtil.GetAllTypesOf<TypeDrawer>()) {
+                if (type.IsGenericTypeDefinition) {
+                    var found = (GenericDrawerAttribute) Attribute.GetCustomAttribute(type, typeof(GenericDrawerAttribute));
+                    if (found != null) {
+                        RegisterDrawerProvider(new GenericDrawerProvider(found.SupportedType, type));
+                    }
+                    continue;
+                }
+
+                RegisterDrawer(Activator.CreateInstance(type) as TypeDrawer);
+            }
         }
 
         private static void RegisterDrawers() {
